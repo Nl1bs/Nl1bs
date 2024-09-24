@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
+</head>
+<body>
+  <div id="vis"/>
+  <script>
+    const spec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 600,
+  "height": 500,
+  "title": "EV Charger Stations in Australia",
+  "projection": {
+    "type": "conicConformal",
+    "rotate": [-133, 28.3, 0],
+    "scale": 700
+  },
+  "layer": [
+    {"data": {"sphere": true}, "mark": {"type": "geoshape", "fill": "#87CEFA"}},
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e0e0e0",
+        "stroke": "white",
+        "strokeWidth": 1.5
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/georef-australia-state.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#FFF",
+        "strokeWidth": 1.5
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/australia_ev_chargers_clean.json",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "circle",
+        "opacity": 0.7,
+        "stroke": "black",
+        "strokeWidth": 0.5,
+        "tooltip": {"content": "data"}
+      },
+      "encoding": {
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "size": {"value": 50},
+        "color": {
+          "field": "TotalConnections",
+          "type": "quantitative",
+          "scale": {"scheme": "category10"},
+          "legend": {
+            "title": "Connections",
+            "type": "symbol",
+            "values": [1, 2, 3, 4, 5, 6, 7, 8]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "StationCount",
+            "type": "quantitative",
+            "title": "Number of Stations"
+          },
+          {
+            "field": "AveragePowerOutput",
+            "type": "quantitative",
+            "title": "Avg Power Output (kW)"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/ne_110m_graticules_5.json",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#989898",
+        "strokeWidth": 0.5
+      }
+    }
+  ],
+  "config": {}
+};
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+</body>
+</html>
