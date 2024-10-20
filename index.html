@@ -19,20 +19,29 @@
         }
         .grid {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: row;
+            flex-wrap: nowrap;
         }
-        .grid-item {
-            flex: 1;
-            min-width: 500px;
-            margin: 10px;
-        }
-        .column {
+        .left-column {
+            flex: 2;
             display: flex;
             flex-direction: column;
+        }
+        .legend-container {
             flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .vega-map-container {
+            flex: 3;
         }
         .chart {
-            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .legend {
+            margin-left: 20px;
         }
         h1 {
             text-align: center;
@@ -44,32 +53,94 @@
     <div class="container">
         <h1>EV Charger Stations in Australia and Growth Rate</h1>
         
-        <!-- Grid to hold both visualizations in columns -->
+        <!-- Grid to hold both visualizations and the legend -->
         <div class="grid">
-            <!-- Old Vega Map (left column) -->
-            <div id="vega-map" class="grid-item"></div>
-
-            <!-- New Vega Plot (right column) -->
-            <div class="column">
+            <!-- Left Column (Charts) -->
+            <div class="left-column">
                 <div id="vega-growth" class="chart"></div>
                 <div id="vega-third-plot" class="chart"></div> <!-- Placeholder for the third plot -->
+            </div>
+
+            <!-- Legend on the right of the charts but above the map -->
+            <div class="legend-container">
+                <div id="vega-legend" class="legend"></div> <!-- Legend will go here -->
+            </div>
+
+            <!-- Right Column (Vega Map) -->
+            <div class="vega-map-container">
+                <div id="vega-map"></div>
             </div>
         </div>
     </div>
 
     <!-- Vega map (your old map) -->
     <script type="text/javascript">
-        vegaEmbed('#vega-map', "path/to/vega_map_spec.json");
+        vegaEmbed('#vega-map', "https://nl1bs.github.io/Nl1bs/vega_map_spec.json");
     </script>
 
     <!-- Vega plot for rate of development (new plot) -->
     <script type="text/javascript">
-        vegaEmbed('#vega-growth', "path/to/growth_rate_spec.json");
+        vegaEmbed('#vega-growth', "https://nl1bs.github.io/Nl1bs/legend_spec.json");
     </script>
 
     <!-- Vega third plot (Placeholder) -->
     <script type="text/javascript">
-        vegaEmbed('#vega-third-plot', "path/to/third_plot_spec.json");
+        vegaEmbed('#vega-third-plot', "https://nl1bs.github.io/Nl1bs/charts_spec.json");
     </script>
+
+    <!-- Vega Legend -->
+    <script type="text/javascript">
+        vegaEmbed('#vega-legend', {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "data": {
+                "values": [
+                    {"Type": "Petrol Station", "fill": "white", "stroke": "black"},
+                    {"Type": "EV Station", "fill": "#1f77b4", "stroke": "black"},
+                    {"Type": "City", "fill": "red", "stroke": "black"}
+                ]
+            },
+            "mark": {
+                "type": "point",
+                "filled": true,
+                "size": 200
+            },
+            "encoding": {
+                "y": {
+                    "field": "Type",
+                    "type": "nominal",
+                    "axis": {
+                        "title": null,
+                        "labelFontSize": 12
+                    }
+                },
+                "fill": {
+                    "field": "fill",
+                    "type": "nominal",
+                    "scale": null
+                },
+                "stroke": {
+                    "field": "stroke",
+                    "type": "nominal",
+                    "scale": null
+                }
+            },
+            "title": {
+                "text": "Type of Location",
+                "anchor": "start",
+                "fontSize": 14,
+                "dy": -20
+            },
+            "config": {
+                "view": {
+                    "stroke": "transparent"
+                },
+                "axis": {
+                    "domain": false,
+                    "ticks": false
+                }
+            }
+        });
+    </script>
+
 </body>
 </html>
