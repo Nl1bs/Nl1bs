@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV Charger Stations and Growth Rate</title>
+    <!-- Include Pure.css for styling -->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        /* Additional styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .grid-item {
+            flex: 1;
+            min-width: 500px;
+            margin: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>EV Charger Stations in Australia and Growth Rate</h1>
+        
+        <!-- Grid to hold both visualizations -->
+        <div class="grid">
+            <!-- Old Vega Map -->
+            <!-- <div id="vega-map" class="grid-item"></div> -->
+            
+            <!-- New Vega Plot for Growth Rate -->
+            <div id="vega-growth" class="grid-item"></div>
+        </div>
+    </div>
+
+    Vega map (your old map)
+    <script type="text/javascript">
+        var vegaMapSpec = /* Your old Vega map specification (JSON) goes here */;
+        vegaEmbed('#vega-map', vegaMapSpec);
+    </script>
+
+    <!-- Vega plot for rate of development (new plot) -->
+    <script type="text/javascript">
+        var growthRateSpec = {
+          "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+          "title": "Rate of Development of EV Stations Over Time",
+          "data": {
+            "url": "ev_charger_development_over_time.csv",  // Preprocessed CSV data
+            "format": {"type": "csv"}
+          },
+          "mark": {
+            "type": "area",
+            "interpolate": "monotone",
+            "color": "#1f77b4"
+          },
+          "encoding": {
+            "x": {
+              "field": "Year",
+              "type": "temporal",
+              "axis": {"title": "Year"}
+            },
+            "y": {
+              "field": "Cumulative EV Chargers",
+              "type": "quantitative",
+              "axis": {"title": "Cumulative EV Chargers"}
+            }
+          }
+        };
+        vegaEmbed('#vega-growth', growthRateSpec);
+    </script>
+</body>
+</html>
