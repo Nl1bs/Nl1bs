@@ -1,0 +1,78 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "vconcat": [
+    {
+      "hconcat": [
+        {
+          "title": "EV Charger Power Output",
+          "data": {
+            "url": "https://nl1bs.github.io/Nl1bs/ev_power_histogram.csv"
+          },
+          "mark": "bar",
+          "encoding": {
+            "x": {
+              "field": "AveragePowerOutput",
+              "type": "quantitative",
+              "axis": {"title": "Power Output (kW)"}
+            },
+            "y": {
+              "field": "Count",
+              "type": "quantitative",
+              "axis": {"title": "Count of Chargers"}
+            }
+          }
+        },
+        {
+          "title": "Connections per Charging Station",
+          "data": {
+            "url": "https://nl1bs.github.io/Nl1bs/ev_connections_histogram.csv"
+          },
+          "mark": "bar",
+          "encoding": {
+            "x": {
+              "field": "TotalConnections",
+              "type": "quantitative",
+              "bin": true,
+              "axis": {"title": "Total Connections"}
+            },
+            "y": {
+              "field": "Count",
+              "type": "quantitative",
+              "axis": {"title": "Count of Chargers"}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "EV Charging Stations Over Time",
+      "width": 460,  // Double the width of the charts above
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/australia_ev_chargers_growth.csv",
+        "format": {"type": "csv"}
+      },
+      "mark": {
+        "type": "area",
+        "interpolate": "monotone",
+        "color": "#1f77b4",
+        "point": false
+      },
+      "encoding": {
+        "x": {
+          "field": "DateCreated",
+          "type": "temporal",
+          "axis": {"title": "Date Created"}
+        },
+        "y": {
+          "field": "CumulativeStations",
+          "type": "quantitative",
+          "axis": {"title": "No# of EV Charging Stations"}
+        },
+        "tooltip": [
+          {"field": "DateCreated", "type": "temporal", "title": "Date"},
+          {"field": "CumulativeStations", "type": "quantitative", "title": "Total Stations"}
+        ]
+      }
+    }
+  ]
+}

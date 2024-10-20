@@ -1,0 +1,50 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "values": [
+      {"Type": "Petrol Station", "fill": "white", "stroke": "black"},
+      {"Type": "EV Station", "fill": "#1f77b4", "stroke": "black"},
+      {"Type": "City", "fill": "red", "stroke": "black"}
+    ]
+  },
+  "mark": {
+    "type": "point",
+    "filled": true,
+    "size": 200
+  },
+  "encoding": {
+    "y": {
+      "field": "Type",
+      "type": "nominal",
+      "axis": {
+        "title": null,  // Disable the default vertical title
+        "labelFontSize": 12
+      }
+    },
+    "fill": {
+      "field": "fill",
+      "type": "nominal",
+      "scale": null
+    },
+    "stroke": {
+      "field": "stroke",
+      "type": "nominal",
+      "scale": null
+    }
+  },
+  "title": {
+    "text": "Type of Location",
+    "anchor": "start",
+    "fontSize": 14,
+    "dy": -20  // Move the title closer to the top of the legend
+  },
+  "config": {
+    "view": {
+      "stroke": "transparent"
+    },
+    "axis": {
+      "domain": false,
+      "ticks": false
+    }
+  }
+}

@@ -1,0 +1,314 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 500,
+  "title": "EV Charger Stations in Australia 2024",
+  "projection": {
+    "type": "conicConformal",
+    "rotate": [-133, 31, 0],
+    "center": [0, 3],
+    "scale": {"expr": "zoom * 720"}, // Zoom scale expression
+    "translate": [
+      {"signal": "(tx * zoom) + width / 2"},  // Adjust X translation dynamically with zoom
+      {"signal": "(ty * zoom) + height / 2"}  // Adjust Y translation dynamically with zoom
+    ]
+  },
+  "params": [
+    {
+      "name": "zoom",  // Zoom control
+      "value": 1,
+      "bind": {
+        "input": "range",
+        "min": 1,
+        "max": 3,
+        "step": 0.1,
+        "name": "Zoom"
+      }
+    },
+    {
+      "name": "tx",  // X translation for panning
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": -250,
+        "max": 250,
+        "step": 10,
+        "name": "Pan X"
+      }
+    },
+    {
+      "name": "ty",  // Y translation for panning
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": -250,
+        "max": 250,
+        "step": 10,
+        "name": "Pan Y"
+      }
+    },
+    {
+      "name": "yearSelector",
+      "value": 2010,
+      "bind": {
+        "input": "range",
+        "min": 2010,
+        "max": 2024,
+        "step": 1
+      }
+    },
+    {
+      "name": "monthSelector",
+      "value": 1,
+      "bind": {
+        "input": "range",
+        "min": 1,
+        "max": 12,
+        "step": 1
+      }
+    },
+    {
+      "name": "showStateNames",
+      "value": true,
+      "bind": {
+        "input": "checkbox",
+        "name": "Show States"
+      }
+    },
+    {
+      "name": "showCityNames",
+      "value": true,
+      "bind": {
+        "input": "checkbox",
+        "name": "Show Cities"
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "sphere": true
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#ffffff"  // Light blue ocean
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/WA_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e8d9c5"
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/NT_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#d5b09e"
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/SA_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e7c4a9"
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/QLD_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#cdbda7"
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/NSW_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e6b49f"
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/VIC_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#c7ae9b"
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/TAS_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#d8b296",
+        "stroke": "#ffffff",
+        "strokeWidth": 1.5
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/ACT_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e8cfae"
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/Petrol_Stations_Clean.csv",
+        "format": {"type": "csv"}
+      },
+      "mark": {
+        "type": "point",
+        "opacity": 1.0,
+        "size": 10,
+        "fill": "white",
+        "stroke": "black",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "longitude": {"field": "X", "type": "quantitative"},
+        "latitude": {"field": "Y", "type": "quantitative"},
+        "tooltip": [
+          {"field": "N", "type": "nominal", "title": "Petrol Station Name"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/australia_ev_chargers_clean.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "filter": "year(datum.DateCreated) <= yearSelector && (month(datum.DateCreated) <= monthSelector || year(datum.DateCreated) < yearSelector)"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "opacity": 1.0,
+        "size": 20,
+        "fill": "#1f77b4",
+        "stroke": "black",
+        "strokeWidth": 0.5,
+        "tooltip": {"content": "data"}
+      },
+      "encoding": {
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "tooltip": [
+          {"field": "Name", "type": "nominal", "title": "EV Station Name"},
+          {"field": "DateCreated", "type": "temporal", "title": "Date Created"},
+          {"field": "AveragePowerOutput", "type": "quantitative", "title": "Avg Power Output (kW)"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/au_cities_small.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "filter": "showCityNames"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "point",
+            "shape": "circle",
+            "opacity": 1.0,
+            "fill": "red",
+            "stroke": "black",
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "longitude": {"field": "lng", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"},
+            "size": {
+              "field": "population",
+              "type": "quantitative",
+              "scale": {"type": "log", "range": [30, 500]}  // Log scale for size, adjust the range for visualization
+            },
+            "tooltip": [
+              {"field": "city", "type": "nominal", "title": "City"},
+              {"field": "population", "type": "quantitative", "title": "Population"}
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": {"signal": "zoom * 15"},
+            "color": "black"
+          },
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {"state": "New South Wales", "lat": -31.2532, "lng": 146.9211},
+          {"state": "Victoria", "lat": -37.4713, "lng": 144.7852},
+          {"state": "Queensland", "lat": -20.9176, "lng": 142.7028},
+          {"state": "South Australia", "lat": -30.0002, "lng": 136.2092},
+          {"state": "Western Australia", "lat": -27.6728, "lng": 121.6283},
+          {"state": "Tasmania", "lat": -41.4545, "lng": 145.9707},
+          {"state": "Northern Territory", "lat": -19.4914, "lng": 132.5509}
+        ]
+      },
+      "transform": [
+        {
+          "filter": "showStateNames"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": {"signal": "zoom * 12"},
+        "dy": -10,  // Slightly above the center
+        "color": "black"
+      },
+      "encoding": {
+        "longitude": {"field": "lng", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "state", "type": "nominal"}  // Display state name
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/ne_110m_graticules_5.json",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,  // No fill, just gridlines
+        "stroke": "#3d3d3d",  // Gray gridlines
+        "strokeWidth": 0.25
+      }
+    }
+  ]
+}
