@@ -3,27 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Vega Map</title>
     
-    <!-- Vega and Vega-Lite Scripts -->
+    <!-- Pure.css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    
+    <!-- Roboto Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Title -->
+    <title>EV Connections Over Time</title>
+    
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;  /* Apply Roboto */
+            margin: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .chart {
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+        }    
+    </style>
 </head>
 <body>
-    <h1>Test Vega Map</h1>
-    <div id="vega-map"></div>
 
-    <div id="loading-message">Loading map, please wait...</div>
-    <div id="vega-map"></div>
+    <div class="container">
+        <h1>EV Connections Over Time</h1>
+        
+        <!-- Container to hold the EV connections chart -->
+        <div id="vega-EV_connections" class="chart"></div>
+    </div>
 
+    <!-- Load the visualization -->
     <script type="text/javascript">
-        document.getElementById('loading-message').style.display = 'block';
-        vegaEmbed('#vega-map', 'https://nl1bs.github.io/Nl1bs/vega_map_spec.json')
-            .then(function(result) {
-                document.getElementById('loading-message').style.display = 'none';
-            })
-            .catch(error => console.error("Error:", error));
+        vegaEmbed('#vega-EV_connections', "https://nl1bs.github.io/Nl1bs/EV_connections_spec.json");
     </script>
 
 </body>
