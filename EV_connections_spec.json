@@ -1,0 +1,82 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 400,
+  "height": 200,
+  "title": {
+    "text": "Distribution of Connections per EV Charging Station Over Time",
+    "font": "Roboto",
+    "fontSize": 20,
+    "anchor": "middle"
+  },
+  "data": {
+    "url": "https://nl1bs.github.io/Nl1bs/ev_connections_area_chart.csv",
+    "format": {"type": "csv"}
+  },
+  "encoding": {
+    "x": {
+      "field": "Date",
+      "type": "temporal",
+      "axis": {
+        "title": "Date",
+        "format": "%Y",  // Show only the year on the x-axis
+        "labelAngle": -45  // Rotate labels on x-axis for better readability
+      },
+      "titleFont": "Roboto"
+    },
+    "y": {
+      "field": "Proportion",
+      "type": "quantitative",
+      "axis": {
+        "title": "Proportion (%)",  // Label for the y-axis
+        "titleFont": "Roboto",
+        "labelFont": "Roboto"
+      }
+    },
+    "color": {
+      "field": "Connections",
+      "type": "nominal",
+      "scale": {
+        "scheme": "blues"  // Sequential color scale for the connections
+      },
+      "title": "Number of Connections",
+      "titleFont": "Roboto",
+      "labelFont": "Roboto"
+    }
+  },
+  "transform": [
+    {
+      // Transform the data from wide to long format by folding the connection columns
+      "fold": [
+        "Connections_1", 
+        "Connections_2", 
+        "Connections_3", 
+        "Connections_4", 
+        "Connections_5", 
+        "Connections_6", 
+        "Connections_7", 
+        "Connections_8"
+      ],
+      "as": ["Connections", "Proportion"]  // Name the resulting columns
+    },
+    {
+      // Use a calculate transform to clean up the label for the legend
+      "calculate": "substring(datum.Connections, 12) + ' Connections'",  // Extract the number from "Connections_1"
+      "as": "Connections"  // Rename for a cleaner display in the legend
+    }
+  ],
+  "mark": {
+    "type": "area",
+    "interpolate": "monotone",  // Smooth interpolation for the area chart
+    "line": {"color": "black", "strokeWidth": 1.5}  // Add a black outline to the areas for clarity
+  },
+  "config": {
+    "axisX": {
+      "labelFont": "Roboto",
+      "titleFont": "Roboto"
+    },
+    "axisY": {
+      "labelFont": "Roboto",
+      "titleFont": "Roboto"
+    }
+  }
+}

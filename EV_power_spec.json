@@ -1,0 +1,20 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "EV Charger Power Output",
+  "data": {
+    "url": "https://nl1bs.github.io/Nl1bs/ev_power_histogram.csv"
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "AveragePowerOutput",
+      "type": "quantitative",
+      "axis": {"title": "Power Output (kW)"}
+    },
+    "y": {
+      "field": "Count",
+      "type": "quantitative",
+      "axis": {"title": "Count of Chargers"}
+    }
+  }
+}

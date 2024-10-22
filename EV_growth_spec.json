@@ -1,0 +1,31 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "EV Charging Stations Over Time",
+  "width": 460,
+  "data": {
+    "url": "https://nl1bs.github.io/Nl1bs/australia_ev_chargers_growth.csv",
+    "format": {"type": "csv"}
+  },
+  "mark": {
+    "type": "area",
+    "interpolate": "monotone",
+    "color": "#1f77b4",
+    "point": false
+  },
+  "encoding": {
+    "x": {
+      "field": "DateCreated",
+      "type": "temporal",
+      "axis": {"title": "Date Created"}
+    },
+    "y": {
+      "field": "CumulativeStations",
+      "type": "quantitative",
+      "axis": {"title": "No# of EV Charging Stations"}
+    },
+    "tooltip": [
+      {"field": "DateCreated", "type": "temporal", "title": "Date"},
+      {"field": "CumulativeStations", "type": "quantitative", "title": "Total Stations"}
+    ]
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 600,
+  "height": 500,
+  "title": "Distance to Nearest Petrol Stations in Australia",
+  "projection": {
+    "type": "conicConformal",
+    "rotate": [-133, 31, 0],
+    "center": [0, 3],
+    "scale": {"expr": "zoom * 720"},
+    "translate": [
+      {"signal": "(tx * zoom) + width / 2"},
+      {"signal": "(ty * zoom) + height / 2"}
+    ]
+  },
+  "params": [
+    {
+      "name": "zoom",
+      "value": 1,
+      "bind": {
+        "input": "range",
+        "min": 1,
+        "max": 3,
+        "step": 0.1,
+        "name": "Zoom"
+      }
+    },
+    {
+      "name": "tx",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": -250,
+        "max": 250,
+        "step": 10,
+        "name": "Pan X"
+      }
+    },
+    {
+      "name": "ty",
+      "value": 0,
+      "bind": {
+        "input": "range",
+        "min": -250,
+        "max": 250,
+        "step": 10,
+        "name": "Pan Y"
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "sphere": true
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#ffffff"
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/WA_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",
+        "fill": null
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/NT_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",
+        "fill": null
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/SA_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",
+        "fill": null
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/QLD_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",
+        "fill": null
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/NSW_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",
+        "fill": null
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/VIC_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",
+        "fill": null
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/TAS_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",
+        "fill": null
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/ACT_simplified.geojson",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "stroke": "black",
+        "fill": null
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/distance_grid.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "lookup": "PetrolDistanceBin",
+          "from": {
+            "data": {
+              "values": [
+                {"DistanceBin": 0, "Label": "0-10 km"},
+                {"DistanceBin": 1, "Label": "10-50 km"},
+                {"DistanceBin": 2, "Label": "50-250 km"},
+                {"DistanceBin": 3, "Label": "250-500 km"},
+                {"DistanceBin": 4, "Label": "500+ km"}
+              ]
+            },
+            "key": "DistanceBin",
+            "fields": ["Label"]
+          }
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "size": {"expr": "zoom*zoom*35"},
+        "shape": "square",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "color": {
+          "field": "Label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["0-10 km", "10-50 km", "50-250 km", "250-500 km", "500+ km"],
+            "range": ["#75240D", "#B3602F", "#EDB774", "#F7E5C5", "#F7F5F0"]
+          },
+          "title": "Distance to Nearest Petrol Station"
+        },
+        // Fill is speficied as well because color only affects stroke
+        "fill": {
+          "field": "Label",
+          "type": "nominal",
+          "scale": {
+            "domain": ["0-10 km", "10-50 km", "50-250 km", "250-500 km", "500+ km"],
+            "range": ["#75240D", "#B3602F", "#EDB774", "#F7E5C5", "#F7F5F0"]
+          },
+          "title": "Distance to Nearest Petrol Station"
+        },
+        "tooltip": [
+          {"field": "Longitude", "type": "quantitative", "title": "Longitude"},
+          {"field": "Latitude", "type": "quantitative", "title": "Latitude"},
+          {"field": "Label", "type": "nominal", "title": "Distance Range (km)"}
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "https://nl1bs.github.io/Nl1bs/ne_110m_graticules_5.json",
+        "format": {"type": "json"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": null,
+        "stroke": "#3d3d3d",
+        "strokeWidth": 0.25
+      }
+    }
+  ]
+}
