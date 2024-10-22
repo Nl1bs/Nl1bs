@@ -53,9 +53,11 @@
         <!-- Grid to hold both visualizations and the legend -->
         <div class="grid">
             <div class="left-column">
-                <div id="vega-growth" class="chart"></div>
-                <div id="vega-third-plot" class="chart"></div>
+                <div id="vega-EV_power" class="chart"></div>
+                <div id="vega-EV_connections" class="chart"></div>
             </div>
+
+            <div id="vega-EV_growth" class="chart"></div>
 
             <div class="legend-container">
                 <div id="vega-legend" class="legend"></div>
@@ -68,15 +70,23 @@
     </div>
 
     <script type="text/javascript">
+        vegaEmbed('#vega-EV_power', "https://nl1bs.github.io/Nl1bs/EV_power_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_connections', "https://nl1bs.github.io/Nl1bs/EV_connections.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_growth', "https://nl1bs.github.io/Nl1bs/EV_growth.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-legend', "https://nl1bs.github.io/Nl1bs/legend_spec.json");
+    </script>
+
+    <script type="text/javascript">
         vegaEmbed('#vega-map', "https://nl1bs.github.io/Nl1bs/vega_map_spec.json");
-    </script>
-
-    <script type="text/javascript">
-        vegaEmbed('#vega-growth', "https://nl1bs.github.io/Nl1bs/legend_spec.json");
-    </script>
-
-    <script type="text/javascript">
-        vegaEmbed('#vega-third-plot', "https://nl1bs.github.io/Nl1bs/charts_spec.json");
     </script>
 
 </body>
