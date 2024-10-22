@@ -191,7 +191,6 @@
           },
           "title": "Distance to Nearest EV Charger"
         },
-        // Fill is speficied as well because color only affects stroke
         "fill": {
           "field": "Label",
           "type": "nominal",
