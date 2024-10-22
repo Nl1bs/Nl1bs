@@ -11,15 +11,15 @@
     "type": "conicConformal",
     "rotate": [-133, 31, 0],
     "center": [0, 3],
-    "scale": {"expr": "zoom * 850"}, // Zoom scale expression
+    "scale": {"expr": "zoom * 850"},
     "translate": [
-      {"signal": "(tx * zoom) + width / 2"},  // Adjust X translation dynamically with zoom
-      {"signal": "(ty * zoom) + height / 2"}  // Adjust Y translation dynamically with zoom
+      {"signal": "(tx * zoom) + width / 2"},
+      {"signal": "(ty * zoom) + height / 2"}
     ]
   },
   "params": [
     {
-      "name": "zoom",  // Zoom control
+      "name": "zoom",
       "value": 1,
       "bind": {
         "input": "range",
@@ -30,7 +30,7 @@
       }
     },
     {
-      "name": "tx",  // X translation for panning
+      "name": "tx",
       "value": 0,
       "bind": {
         "input": "range",
@@ -41,7 +41,7 @@
       }
     },
     {
-      "name": "ty",  // Y translation for panning
+      "name": "ty",
       "value": 0,
       "bind": {
         "input": "range",
@@ -95,7 +95,7 @@
       },
       "mark": {
         "type": "geoshape",
-        "fill": "#fffefb"  // Light blue ocean
+        "fill": "#fffefb"
       }
     },
     {
@@ -194,7 +194,6 @@
       "mark": {
         "type": "point",
         "opacity": 1.0,
-        // Only partially zooms so clusters can be seperated
         "size": {"expr": "20*zoom"},
         "fill": "#ed9a74",
         "stroke": "#d16405",
@@ -221,7 +220,6 @@
       "mark": {
         "type": "point",
         "opacity": 1.0,
-        // Only partially zooms so clusters can be seperated
         "size": {"expr": "20*zoom"},
         "fill": "#74b7ed",
         "stroke": "blue",
@@ -265,7 +263,7 @@
       "encoding": {
         "longitude": {"field": "lng", "type": "quantitative"},
         "latitude": {"field": "lat", "type": "quantitative"},
-        "text": {"field": "state", "type": "nominal"}  // Display state name
+        "text": {"field": "state", "type": "nominal"}
       }
     },
     {
@@ -294,7 +292,7 @@
             "size": {
               "field": "population",
               "type": "quantitative",
-              "scale": {"type": "log", "range": [30, 500]}  // Log scale for size, adjust the range for visualization
+              "scale": {"type": "log", "range": [30, 500]}
             },
             "tooltip": [
               {"field": "city", "type": "nominal", "title": "City"},
@@ -307,7 +305,7 @@
             "type": "text",
             "fontSize": {"signal": "zoom * 15"},
             "color": "black"
-          },
+          }
         }
       ]
     },
@@ -318,8 +316,8 @@
       },
       "mark": {
         "type": "geoshape",
-        "fill": null,  // No fill, just gridlines
-        "stroke": "#3d3d3d",  // Gray gridlines
+        "fill": null,
+        "stroke": "#3d3d3d",
         "strokeWidth": 0.25
       }
     }
