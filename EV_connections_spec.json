@@ -18,16 +18,15 @@
       "type": "temporal",
       "axis": {
         "title": "Date",
-        "format": "%Y",  // Show only the year on the x-axis
-        "labelAngle": -45  // Rotate labels on x-axis for better readability
-      },
-      "titleFont": "Roboto"
+        "format": "%Y",
+        "labelAngle": -45
+      }
     },
     "y": {
       "field": "Proportion",
       "type": "quantitative",
       "axis": {
-        "title": "Proportion (%)",  // Label for the y-axis
+        "title": "Proportion (%)",
         "titleFont": "Roboto",
         "labelFont": "Roboto"
       }
@@ -36,16 +35,13 @@
       "field": "Connections",
       "type": "nominal",
       "scale": {
-        "scheme": "blues"  // Sequential color scale for the connections
+        "scheme": "blues"
       },
-      "title": "Number of Connections",
-      "titleFont": "Roboto",
-      "labelFont": "Roboto"
+      "title": "Number of Connections"
     }
   },
   "transform": [
     {
-      // Transform the data from wide to long format by folding the connection columns
       "fold": [
         "Connections_1", 
         "Connections_2", 
@@ -56,18 +52,17 @@
         "Connections_7", 
         "Connections_8"
       ],
-      "as": ["Connections", "Proportion"]  // Name the resulting columns
+      "as": ["Connections", "Proportion"]
     },
     {
-      // Use a calculate transform to clean up the label for the legend
-      "calculate": "substring(datum.Connections, 12) + ' Connections'",  // Extract the number from "Connections_1"
-      "as": "Connections"  // Rename for a cleaner display in the legend
+      "calculate": "substring(datum.Connections, 12) + ' Connections'",
+      "as": "Connections"
     }
   ],
   "mark": {
     "type": "area",
-    "interpolate": "monotone",  // Smooth interpolation for the area chart
-    "line": {"color": "black", "strokeWidth": 1.5}  // Add a black outline to the areas for clarity
+    "interpolate": "monotone",
+    "line": {"color": "black", "strokeWidth": 1.5}
   },
   "config": {
     "axisX": {
