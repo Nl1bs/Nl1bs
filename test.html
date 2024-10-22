@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Vega Map</title>
+    
+    <!-- Vega and Vega-Lite Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+    <h1>Test Vega Map</h1>
+    <div id="vega-map"></div>
+
+    <div id="loading-message">Loading map, please wait...</div>
+    <div id="vega-map"></div>
+
+    <script type="text/javascript">
+        document.getElementById('loading-message').style.display = 'block';
+        vegaEmbed('#vega-map', 'https://nl1bs.github.io/Nl1bs/vega_map_spec.json')
+            .then(function(result) {
+                document.getElementById('loading-message').style.display = 'none';
+            })
+            .catch(error => console.error("Error:", error));
+    </script>
+
+</body>
+</html>

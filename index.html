@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EV Charger Stations and Growth Rate</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    
+    <!-- Pure.css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    
+    <!-- Roboto Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Title -->
+    <title>EV Chargers and Petrol Stations in Australia</title>
+    
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    
+    <!-- Custom CSS -->
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;  /* Apply Roboto */
             margin: 20px;
         }
         .container {
@@ -42,26 +52,30 @@
         }
         h1 {
             text-align: center;
-        }
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+        }    
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Electric vehicle charging stations in Australia</h1>
+        <h1>EV Chargers and Petrol Stations in Australia</h1>
         
         <!-- Grid to hold both visualizations and the legend -->
         <div class="grid">
-            <div class="left-column">
+            <!-- <div class="left-column">
                 <div id="vega-EV_power" class="chart"></div>
                 <div id="vega-EV_connections" class="chart"></div>
             </div>
 
             <div id="vega-EV_growth" class="chart"></div>
+            <div id="vega-EV_distance" class="chart"></div>
+            <div id="vega-petrol_distance" class="chart"></div>
 
             <div class="legend-container">
                 <div id="vega-legend" class="legend"></div>
-            </div>
+            </div> -->
 
             <div class="vega-map-container">
                 <div id="vega-map"></div>
@@ -69,21 +83,30 @@
         </div>
     </div>
 
-    <script type="text/javascript">
+    <!-- Load the visualizations -->
+    <!-- <script type="text/javascript">
         vegaEmbed('#vega-EV_power', "https://nl1bs.github.io/Nl1bs/EV_power_spec.json");
     </script>
 
     <script type="text/javascript">
-        vegaEmbed('#vega-EV_connections', "https://nl1bs.github.io/Nl1bs/EV_connections.json");
+        vegaEmbed('#vega-EV_connections', "https://nl1bs.github.io/Nl1bs/EV_connections_spec.json");
     </script>
 
     <script type="text/javascript">
-        vegaEmbed('#vega-EV_growth', "https://nl1bs.github.io/Nl1bs/EV_growth.json");
+        vegaEmbed('#vega-EV_growth', "https://nl1bs.github.io/Nl1bs/EV_growth_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_distance', "https://nl1bs.github.io/Nl1bs/EV_distance_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-petrol_distance', "https://nl1bs.github.io/Nl1bs/petrol_distance_spec.json");
     </script>
 
     <script type="text/javascript">
         vegaEmbed('#vega-legend', "https://nl1bs.github.io/Nl1bs/legend_spec.json");
-    </script>
+    </script> -->
 
     <script type="text/javascript">
         vegaEmbed('#vega-map', "https://nl1bs.github.io/Nl1bs/vega_map_spec.json");
