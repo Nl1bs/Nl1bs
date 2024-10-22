@@ -1,9 +1,77 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "data": {"values": [{"a": "A", "b": 28}, {"a": "B", "b": 55}]},
-  "mark": "bar",
+  "width": 400,
+  "height": 200,
+  "title": {
+    "text": "Distribution of Connections per EV Charging Station Over Time",
+    "font": "Roboto",
+    "fontSize": 20,
+    "anchor": "middle"
+  },
+  "data": {
+    "url": "https://nl1bs.github.io/Nl1bs/ev_connections_area_chart.csv",
+    "format": {"type": "csv"}
+  },
   "encoding": {
-    "x": {"field": "a", "type": "nominal"},
-    "y": {"field": "b", "type": "quantitative"}
+    "x": {
+      "field": "Date",
+      "type": "temporal",
+      "axis": {
+        "title": "Date",
+        "format": "%Y",
+        "labelAngle": -45
+      }
+    },
+    "y": {
+      "field": "Proportion",
+      "type": "quantitative",
+      "axis": {
+        "title": "Proportion (%)",
+        "titleFont": "Roboto",
+        "labelFont": "Roboto"
+      }
+    },
+    "color": {
+      "field": "Connections",
+      "type": "nominal",
+      "scale": {
+        "scheme": "blues"
+      },
+      "title": "Number of Connections"
+    }
+  },
+  "transform": [
+    {
+      "fold": [
+        "Connections_1", 
+        "Connections_2", 
+        "Connections_3", 
+        "Connections_4", 
+        "Connections_5", 
+        "Connections_6", 
+        "Connections_7", 
+        "Connections_8"
+      ],
+      "as": ["Connections", "Proportion"]
+    },
+    {
+      "calculate": "substring(datum.Connections, 12) + ' Connections'",
+      "as": "Connections"
+    }
+  ],
+  "mark": {
+    "type": "area",
+    "interpolate": "monotone",
+    "line": {"color": "black", "strokeWidth": 1.5}
+  },
+  "config": {
+    "axisX": {
+      "labelFont": "Roboto",
+      "titleFont": "Roboto"
+    },
+    "axisY": {
+      "labelFont": "Roboto",
+      "titleFont": "Roboto"
+    }
   }
 }
