@@ -187,7 +187,6 @@
           },
           "title": "Distance to Nearest Petrol Station"
         },
-        // Fill is speficied as well because color only affects stroke
         "fill": {
           "field": "Label",
           "type": "nominal",
