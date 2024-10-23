@@ -1,0 +1,705 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "params": [
+      {
+        "name": "zoom",
+        "value": 1,
+        "bind": {
+          "input": "range",
+          "min": 1,
+          "max": 3,
+          "step": 0.1,
+          "name": "Zoom"
+        }
+      },
+      {
+        "name": "tx",
+        "value": 0,
+        "bind": {
+          "input": "range",
+          "min": -250,
+          "max": 250,
+          "step": 10,
+          "name": "Pan X"
+        }
+      },
+      {
+        "name": "ty",
+        "value": 0,
+        "bind": {
+          "input": "range",
+          "min": -250,
+          "max": 250,
+          "step": 10,
+          "name": "Pan Y"
+        }
+      },
+      {
+        "name": "yearSelector",
+        "value": 2010,
+        "bind": {
+          "input": "range",
+          "min": 2010,
+          "max": 2024,
+          "step": 1
+        }
+      },
+      {
+        "name": "monthSelector",
+        "value": 1,
+        "bind": {
+          "input": "range",
+          "min": 1,
+          "max": 12,
+          "step": 1
+        }
+      },
+      {
+        "name": "showStateNames",
+        "value": true,
+        "bind": {
+          "input": "checkbox",
+          "name": "Show States"
+        }
+      },
+      {
+        "name": "showCityNames",
+        "value": true,
+        "bind": {
+          "input": "checkbox",
+          "name": "Show Cities"
+        }
+      }
+    ],
+    "vconcat": [
+      {
+        "width": 800,
+        "height": 500,
+        "title": {
+          "text": "EV Charger and Petrol Stations in Australia 2024",
+          "fontSize": 22,
+          "anchor": "start"
+        },
+        "projection": {
+          "type": "conicConformal",
+          "rotate": [-133, 31, 0],
+          "center": [0, 3],
+          "scale": {"expr": "zoom * 720"},
+          "translate": [
+            {"signal": "(tx * zoom) + 400"},
+            {"signal": "(ty * zoom) + 250"}
+          ]
+        },
+        "layer": [
+          {
+            "data": {
+              "sphere": true
+            },
+            "mark": {
+              "type": "geoshape",
+              "fill": "#fffefb"
+            }
+          },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/WA_simplified.geojson",
+              "format": {"type": "json"}
+            },
+            "mark": {
+              "type": "geoshape",
+              "fill": "#f1e3c0",
+              "stroke": "black"
+            }
+          },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/NT_simplified.geojson",
+              "format": {"type": "json"}
+            },
+            "mark": {
+              "type": "geoshape",
+              "fill": "#f1e3c0",
+              "stroke": "black"
+            }
+          },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/SA_simplified.geojson",
+              "format": {"type": "json"}
+            },
+            "mark": {
+              "type": "geoshape",
+              "fill": "#f1e3c0",
+              "stroke": "black"
+            }
+          },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/QLD_simplified.geojson",
+              "format": {"type": "json"}
+            },
+            "mark": {
+              "type": "geoshape",
+              "fill": "#f1e3c0",
+              "stroke": "black"
+            }
+          },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/NSW_simplified.geojson",
+              "format": {"type": "json"}
+            },
+            "mark": {
+              "type": "geoshape",
+              "fill": "#f1e3c0",
+              "stroke": "black"
+            }
+          },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/VIC_simplified.geojson",
+              "format": {"type": "json"}
+            },
+            "mark": {
+              "type": "geoshape",
+              "fill": "#f1e3c0",
+              "stroke": "black"
+            }
+          },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/TAS_simplified.geojson",
+              "format": {"type": "json"}
+            },
+            "mark": {
+              "type": "geoshape",
+              "fill": "#f1e3c0",
+              "stroke": "black"
+            }
+          },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/ACT_simplified.geojson",
+              "format": {"type": "json"}
+            },
+            "mark": {
+              "type": "geoshape",
+              "fill": "#f1e3c0",
+              "stroke": "black"
+            }
+          },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/Petrol_Stations_Clean.csv",
+              "format": {"type": "csv"}
+            },
+            "mark": {
+              "type": "point",
+              "opacity": 1.0,
+              "size": {"expr": "20*zoom"},
+              "fill": "#ed9a74",
+              "stroke": "#d16405",
+              "strokeWidth": 0.5
+            },
+            "encoding": {
+              "longitude": {"field": "X", "type": "quantitative"},
+              "latitude": {"field": "Y", "type": "quantitative"},
+              "tooltip": [
+                {"field": "N", "type": "nominal", "title": "Petrol Station Name"}
+              ]
+            }
+          },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/australia_ev_chargers_clean.csv",
+              "format": {"type": "csv"}
+            },
+            "transform": [
+              {
+                "filter": "year(datum.DateCreated) <= yearSelector && (month(datum.DateCreated) <= monthSelector || year(datum.DateCreated) < yearSelector)"
+              }
+            ],
+            "mark": {
+              "type": "point",
+              "opacity": 1.0,
+              "size": {"expr": "20*zoom"},
+              "fill": "#74b7ed",
+              "stroke": "blue",
+              "strokeWidth": 0.5,
+              "tooltip": {"content": "data"}
+            },
+            "encoding": {
+              "longitude": {"field": "Longitude", "type": "quantitative"},
+              "latitude": {"field": "Latitude", "type": "quantitative"},
+              "tooltip": [
+                {"field": "Name", "type": "nominal", "title": "EV Station Name"},
+                {"field": "DateCreated", "type": "temporal", "title": "Date Created"},
+                {"field": "AveragePowerOutput", "type": "quantitative", "title": "Avg Power Output (kW)"}
+              ]
+            }
+          },
+          {
+          "data": {
+            "values": [
+              {"state": "New South Wales", "lat": -32, "lng": 147},
+              {"state": "Victoria", "lat": -36.4713, "lng": 144},
+              {"state": "Queensland", "lat": -23, "lng": 144},
+              {"state": "South Australia", "lat": -29, "lng": 135},
+              {"state": "Western Australia", "lat": -26, "lng": 121.7},
+              {"state": "Tasmania", "lat": -42, "lng": 141.8},
+              {"state": "Northern Territory", "lat": -19, "lng": 133.5}
+            ]
+          },
+          "transform": [
+            {
+              "filter": "showStateNames"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "fontStyle": "bold",
+            "font": "roboto",
+            "color": "black"
+          },
+          "encoding": {
+            "longitude": {"field": "lng", "type": "quantitative"},
+            "latitude": {"field": "lat", "type": "quantitative"},
+            "text": {"field": "state", "type": "nominal"}
+          }
+        },
+        {
+          "data": {
+            "url": "https://nl1bs.github.io/Nl1bs/au_cities_small.csv",
+            "format": {"type": "csv"}
+          },
+          "transform": [
+            {
+              "filter": "showCityNames"
+            }
+          ],
+          "layer": [
+            {
+              "mark": {
+                "type": "point",
+                "shape": "circle",
+                "opacity": 1.0,
+                "fill": "white",
+                "stroke": "black",
+                "strokeWidth": 1
+              },
+              "encoding": {
+                "longitude": {"field": "lng", "type": "quantitative"},
+                "latitude": {"field": "lat", "type": "quantitative"},
+                "size": {
+                  "field": "population",
+                  "type": "quantitative",
+                  "scale": {"type": "log", "range": [30, 500]}
+                },
+                "tooltip": [
+                  {"field": "city", "type": "nominal", "title": "City"},
+                  {"field": "population", "type": "quantitative", "title": "Population"}
+                ]
+              }
+            },
+            {
+              "mark": {
+                "type": "text",
+                "color": "black"
+              }
+            }
+          ]
+        },
+          {
+            "data": {
+              "url": "https://nl1bs.github.io/Nl1bs/ne_110m_graticules_5.json",
+              "format": {"type": "json"}
+            },
+            "mark": {
+              "type": "geoshape",
+              "fill": null,
+              "stroke": "#3d3d3d",
+              "strokeWidth": 0.25
+            }
+          }
+        ]
+      },
+      {
+        "hconcat": [
+          {
+            "width": 400,
+            "height": 400,
+            "title": "Distance to Nearest EV Chargers in Australia",
+            "projection": {
+              "type": "conicConformal",
+              "rotate": [-133, 31, 0],
+              "center": [1, 3],
+              "scale": {"expr": "zoom * 550"},
+              "translate": [
+                {"signal": "(tx * zoom) + 200"},
+                {"signal": "(ty * zoom) + 200"}
+              ]
+            },
+            "layer": [
+              {
+                "data": {
+                  "sphere": true
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#ffffff"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/WA_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/NT_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/SA_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/QLD_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/NSW_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/VIC_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/TAS_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/ACT_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/distance_grid.csv",
+                  "format": {"type": "csv"}
+                },
+                "transform": [
+                  {
+                    "calculate": "datum.EVDistanceBin",
+                    "as": "DistanceBin"
+                  },
+                  {
+                    "lookup": "DistanceBin",
+                    "from": {
+                      "data": {
+                        "values": [
+                          {"DistanceBin": 0, "Label": "0-10 km"},
+                          {"DistanceBin": 1, "Label": "10-50 km"},
+                          {"DistanceBin": 2, "Label": "50-250 km"},
+                          {"DistanceBin": 3, "Label": "250-500 km"},
+                          {"DistanceBin": 4, "Label": "500+ km"}
+                        ]
+                      },
+                      "key": "DistanceBin",
+                      "fields": ["Label"]
+                    }
+                  }
+                ],
+                "mark": {
+                  "type": "point",
+                  "size": {"expr": "zoom*zoom*25"},
+                  "shape": "square",
+                  "strokeWidth": 1
+                },
+                "encoding": {
+                  "longitude": {"field": "Longitude", "type": "quantitative"},
+                  "latitude": {"field": "Latitude", "type": "quantitative"},
+                  "color": {
+                    "field": "Label",
+                    "type": "nominal",
+                    "scale": {
+                      "domain": ["0-10 km", "10-50 km", "50-250 km", "250-500 km", "500+ km"],
+                      "range": ["#0D2475", "#2F60B3", "#74B7ED", "#C5E5F7", "#F0F5F7"]
+                    },
+                    "title": "Distance to Nearest EV Charger"
+                  },
+                  "fill": {
+                    "field": "Label",
+                    "type": "nominal",
+                    "scale": {
+                      "domain": ["0-10 km", "10-50 km", "50-250 km", "250-500 km", "500+ km"],
+                      "range": ["#0D2475", "#2F60B3", "#74B7ED", "#C5E5F7", "#F0F5F7"]
+                    }
+                  },
+                  "tooltip": [
+                    {"field": "Longitude", "type": "quantitative", "title": "Longitude"},
+                    {"field": "Latitude", "type": "quantitative", "title": "Latitude"},
+                    {"field": "Label", "type": "nominal", "title": "Distance Range (km)"}
+                  ]
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/ne_110m_graticules_5.json",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": null,
+                  "stroke": "#3d3d3d",
+                  "strokeWidth": 0.25
+                }
+              }
+            ]
+          },
+          {
+            "width": 400,
+            "height": 400,
+            "title": "Distance to Nearest Petrol Stations in Australia",
+            "projection": {
+              "type": "conicConformal",
+              "rotate": [-133, 31, 0],
+              "center": [1, 3],
+              "scale": {"expr": "zoom * 550"},
+              "translate": [
+                {"signal": "(tx * zoom) + 200"},
+                {"signal": "(ty * zoom) + 200"}
+              ]
+            },
+            "layer": [
+              {
+                "data": {
+                  "sphere": true
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#ffffff"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/WA_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/NT_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/SA_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/QLD_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/NSW_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/VIC_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/TAS_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/ACT_simplified.geojson",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": "#f1e3c0",
+                  "stroke": "black"
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/distance_grid.csv",
+                  "format": {"type": "csv"}
+                },
+                "transform": [
+                  {
+                    "lookup": "PetrolDistanceBin",
+                    "from": {
+                      "data": {
+                        "values": [
+                          {"DistanceBin": 0, "Label": "0-10 km"},
+                          {"DistanceBin": 1, "Label": "10-50 km"},
+                          {"DistanceBin": 2, "Label": "50-250 km"},
+                          {"DistanceBin": 3, "Label": "250-500 km"},
+                          {"DistanceBin": 4, "Label": "500+ km"}
+                        ]
+                      },
+                      "key": "DistanceBin",
+                      "fields": ["Label"]
+                    }
+                  }
+                ],
+                "mark": {
+                  "type": "point",
+                  "size": {"expr": "zoom*zoom*25"},
+                  "shape": "square",
+                  "strokeWidth": 1
+                },
+                "encoding": {
+                  "longitude": {"field": "Longitude", "type": "quantitative"},
+                  "latitude": {"field": "Latitude", "type": "quantitative"},
+                  "color": {
+                    "field": "Label",
+                    "type": "nominal",
+                    "scale": {
+                      "domain": ["0-10 km", "10-50 km", "50-250 km", "250-500 km", "500+ km"],
+                      "range": ["#75240D", "#B3602F", "#EDB774", "#F7E5C5", "#F7F5F0"]
+                    },
+                    "title": "Distance to Nearest Petrol Station"
+                  },
+                  "fill": {
+                    "field": "Label",
+                    "type": "nominal",
+                    "scale": {
+                      "domain": ["0-10 km", "10-50 km", "50-250 km", "250-500 km", "500+ km"],
+                      "range": ["#75240D", "#B3602F", "#EDB774", "#F7E5C5", "#F7F5F0"]
+                    }
+                  },
+                  "tooltip": [
+                    {"field": "Longitude", "type": "quantitative", "title": "Longitude"},
+                    {"field": "Latitude", "type": "quantitative", "title": "Latitude"},
+                    {"field": "Label", "type": "nominal", "title": "Distance Range (km)"}
+                  ]
+                }
+              },
+              {
+                "data": {
+                  "url": "https://nl1bs.github.io/Nl1bs/ne_110m_graticules_5.json",
+                  "format": {"type": "json"}
+                },
+                "mark": {
+                  "type": "geoshape",
+                  "fill": null,
+                  "stroke": "#3d3d3d",
+                  "strokeWidth": 0.25
+                }
+              }
+            ],
+            "resolve": {
+              "scale": {
+                "color": "independent",
+                "fill": "independent"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
