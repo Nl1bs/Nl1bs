@@ -3,7 +3,7 @@
   "width": 800,
   "height": 600,
   "title": {
-    "text": "EV Charger and Petrol Stations in Australia 2024 (But new)",
+    "text": "EV Charger and Petrol Stations in Australia 2024",
     "fontSize": 22,
     "anchor": "start"
   },
@@ -305,7 +305,7 @@
             "type": "text",
             "fontSize": {"signal": "zoom * 15"},
             "color": "black"
-          }
+          },
         }
       ]
     },
