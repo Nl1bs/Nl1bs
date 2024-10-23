@@ -17,7 +17,7 @@
       "field": "Type",
       "type": "nominal",
       "axis": {
-        "title": null,  // Disable the default vertical title
+        "title": null,
         "labelFontSize": 12
       }
     },
@@ -36,7 +36,7 @@
     "text": "Type of Location",
     "anchor": "start",
     "fontSize": 14,
-    "dy": -20  // Move the title closer to the top of the legend
+    "dy": -20
   },
   "config": {
     "view": {
