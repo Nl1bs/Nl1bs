@@ -1,105 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Pure.css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    
+    <!-- Roboto Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Title -->
+    <title>EV Chargers and Petrol Stations in Australia</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr; /* Left and right columns */
+            grid-template-rows: auto auto; /* Two rows */
+            grid-gap: 20px;
+        }
+        .map-container {
+            grid-column: 1 / span 1;
+            grid-row: 1 / span 1;
+        }
+        .distance-maps {
+            grid-column: 1 / span 1;
+            grid-row: 2 / span 1;
+            display: flex;
+            justify-content: space-between;
+        }
+        .distance-map {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .distance-map:last-child {
+            margin-right: 0;
+        }
+        .right-column {
+            grid-column: 2 / span 1;
+            grid-row: 1 / span 2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .chart {
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+        }
+    </style>
 </head>
 <body>
-  <div id="vis"/>
-  <script>
-    const spec = {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 600,
-  "height": 500,
-  "title": "EV Charger Stations in Australia 2024",
-  "projection": {
-    "type": "conicConformal",
-    "rotate": [-133, 28.3, 0],
-    "scale": 700
-  },
-  "layer": [
-    {"data": {"sphere": true}, "mark": {"type": "geoshape", "fill": "#87CEFA"}},
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson",
-        "format": {"type": "json"}
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": "#e0e0e0",
-        "stroke": "white",
-        "strokeWidth": 1.5
-      }
-    },
-    {
-      "data": {
-        "url": "https://nl1bs.github.io/Nl1bs/georef-australia-state.geojson",
-        "format": {"type": "json"}
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": null,
-        "stroke": "#FFF",
-        "strokeWidth": 1.5
-      }
-    },
-    {
-      "data": {
-        "url": "https://nl1bs.github.io/Nl1bs/australia_ev_chargers_clean.json",
-        "format": {"type": "json"}
-      },
-      "mark": {
-        "type": "circle",
-        "opacity": 0.7,
-        "stroke": "black",
-        "strokeWidth": 0.5,
-        "tooltip": {"content": "data"}
-      },
-      "encoding": {
-        "longitude": {"field": "Longitude", "type": "quantitative"},
-        "latitude": {"field": "Latitude", "type": "quantitative"},
-        "size": {"value": 50},
-        "color": {
-          "field": "TotalConnections",
-          "type": "quantitative",
-          "scale": {"scheme": "category10"},
-          "legend": {
-            "title": "Connections",
-            "type": "symbol",
-            "values": [1, 2, 3, 4, 5, 6, 7, 8]
-          }
-        },
-        "tooltip": [
-          {
-            "field": "StationCount",
-            "type": "quantitative",
-            "title": "Number of Stations"
-          },
-          {
-            "field": "AveragePowerOutput",
-            "type": "quantitative",
-            "title": "Avg Power Output (kW)"
-          }
-        ]
-      }
-    },
-    {
-      "data": {
-        "url": "https://nl1bs.github.io/Nl1bs/ne_110m_graticules_5.json",
-        "format": {"type": "json"}
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": null,
-        "stroke": "#989898",
-        "strokeWidth": 0.5
-      }
-    }
-  ],
-  "config": {}
-};
-    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
-  </script>
+
+    <div class="container">
+        <h1>EV Chargers and Petrol Stations in Australia</h1>
+        
+        <div class="grid">
+            <!-- Main Map -->
+            <div class="map-container" id="vega-map"></div>
+
+            <!-- Distance Maps Side by Side -->
+            <div class="distance-maps">
+                <div class="distance-map" id="vega-EV_distance"></div>
+                <div class="distance-map" id="vega-petrol_distance"></div>
+            </div>
+
+            <!-- Charts in a column -->
+            <div class="right-column">
+                <div id="vega-EV_power" class="chart"></div>
+                <div id="vega-EV_connections" class="chart"></div>
+                <div id="vega-EV_growth" class="chart"></div>
+                <div id="vega-legend" class="legend"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the visualizations -->
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_power', "https://nl1bs.github.io/Nl1bs/EV_power_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_connections', "https://nl1bs.github.io/Nl1bs/EV_connections_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_growth', "https://nl1bs.github.io/Nl1bs/EV_growth_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_distance', "https://nl1bs.github.io/Nl1bs/EV_distance_spec.json");
+    </script>
+    
+    <script type="text/javascript">
+        vegaEmbed('#vega-petrol_distance', "https://nl1bs.github.io/Nl1bs/petrol_distance_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-legend', "https://nl1bs.github.io/Nl1bs/legend_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-map', "https://nl1bs.github.io/Nl1bs/vega_map_spec.json");
+    </script>
+
 </body>
 </html>
