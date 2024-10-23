@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Pure.css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    
+    <!-- Roboto Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Title -->
+    <title>EV Chargers and Petrol Stations in Australia</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr; /* Left and right columns */
+            grid-template-rows: auto auto; /* Two rows */
+            grid-gap: 20px;
+        }
+        .map-container {
+            grid-column: 1 / span 1;
+            grid-row: 1 / span 1;
+        }
+        .distance-maps {
+            grid-column: 1 / span 1;
+            grid-row: 2 / span 1;
+            display: flex;
+            justify-content: space-between;
+        }
+        .distance-map {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .distance-map:last-child {
+            margin-right: 0;
+        }
+        .right-column {
+            grid-column: 2 / span 1;
+            grid-row: 1 / span 2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .chart {
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>EV Chargers and Petrol Stations in Australia</h1>
+        
+        <div class="grid">
+            <!-- Main Map -->
+            <div class="map-container" id="vega-map"></div>
+
+            <!-- Distance Maps Side by Side -->
+            <div class="distance-maps">
+                <div class="distance-map" id="vega-EV_distance"></div>
+                <div class="distance-map" id="vega-petrol_distance"></div>
+            </div>
+
+            <!-- Charts in a column -->
+            <div class="right-column">
+                <div id="vega-EV_power" class="chart"></div>
+                <div id="vega-EV_connections" class="chart"></div>
+                <div id="vega-EV_growth" class="chart"></div>
+                <div id="vega-legend" class="legend"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the visualizations -->
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_power', "https://nl1bs.github.io/Nl1bs/EV_power_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_connections', "https://nl1bs.github.io/Nl1bs/EV_connections_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_growth', "https://nl1bs.github.io/Nl1bs/EV_growth_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-EV_distance', "https://nl1bs.github.io/Nl1bs/EV_distance_spec.json");
+    </script>
+    
+    <script type="text/javascript">
+        vegaEmbed('#vega-petrol_distance', "https://nl1bs.github.io/Nl1bs/petrol_distance_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-legend', "https://nl1bs.github.io/Nl1bs/legend_spec.json");
+    </script>
+
+    <script type="text/javascript">
+        vegaEmbed('#vega-map', "https://nl1bs.github.io/Nl1bs/vega_map_spec.json");
+    </script>
+
+</body>
+</html>
