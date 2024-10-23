@@ -305,7 +305,7 @@
             "type": "text",
             "fontSize": {"signal": "zoom * 15"},
             "color": "black"
-          },
+          }
         }
       ]
     },
