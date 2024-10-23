@@ -2,64 +2,23 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 800,
   "height": 600,
-  "title": {
-    "text": "EV Charger and Petrol Stations in Australia 2024",
-    "fontSize": 22,
-    "anchor": "start"
-  },
+  "title": "EV Charger and Petrol Stations in Australia 2024",
   "projection": {
     "type": "conicConformal",
     "rotate": [-133, 31, 0],
     "center": [0, 3],
-    "scale": {"expr": "zoom * 850"},
-    "translate": [
-      {"signal": "(tx * zoom) + width / 2"},
-      {"signal": "(ty * zoom) + height / 2"}
-    ]
+    "scale": 850
   },
-  "params": [
-    {
-      "name": "zoom",
-      "value": 1,
-      "bind": {
-        "input": "range",
-        "min": 1,
-        "max": 3,
-        "step": 0.1,
-        "name": "Zoom"
-      }
-    },
-    {
-      "name": "tx",
-      "value": 0,
-      "bind": {
-        "input": "range",
-        "min": -250,
-        "max": 250,
-        "step": 10,
-        "name": "Pan X"
-      }
-    },
-    {
-      "name": "ty",
-      "value": 0,
-      "bind": {
-        "input": "range",
-        "min": -250,
-        "max": 250,
-        "step": 10,
-        "name": "Pan Y"
-      }
-    }
-  ],
   "layer": [
     {
       "data": {
-        "sphere": true
+        "url": "https://nl1bs.github.io/Nl1bs/WA_simplified.geojson",
+        "format": {"type": "json"}
       },
       "mark": {
         "type": "geoshape",
-        "fill": "#fffefb"
+        "fill": "#f1e3c0",
+        "stroke": "black"
       }
     }
   ]
